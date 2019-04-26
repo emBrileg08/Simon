@@ -1,4 +1,4 @@
-from ggame import App, Sprite, Color, RectangleAsset, LineStylew
+from ggame import App, Sprite, Color, RectangleAsset, LineStyle
 
 class Button(Sprite):
     def __init__(self):
