@@ -1,9 +1,14 @@
 from ggame import App, Sprite, Color, RectangleAsset, LineStyle
+import random
 
 Red=Color(0xff0000, 0.9)
 Yellow=Color(0xffff00, 0.9)
 Green= Color(0x49E20E,1.0)
 Blue=Color(0x0000ff, 0.9)
+Redlit=Color(0xff0000, 0.7)
+Yellowlit=Color(0xffff00, 0.7)
+Greenlit=Color(0x49E20E,0.7)
+Bluelit=Color(0x0000ff, 0.6)
 
 class Button(Sprite):
      def __init__(self, position,shade):
@@ -14,10 +19,28 @@ class Button(Sprite):
 class Simon(App):
     def __init__(self):
         super().__init__()
-        Button((0,0),Red)
-        Button((0,self.height/2),Blue)
-        Button((self.width/2,0),Yellow)
-        Button((self.width/2,self.height/2),Green)
-    
+        def step(self):
+            choice=random.randint(1,5)
+            if choice!=1:
+                shadered=Red
+            else:
+                shadered=Redlit
+            if choice!=2:
+                shadeyellow=Yellow
+            else:
+                shadeyellow=Yellowlit
+            if choice!=3:
+                shadegreen=Green
+            else:
+                shadegreen=Greenlit
+            if choice!=4:
+                shadeblue=Blue
+            else:
+                shadeblue=Bluelit
+            Button((0,0),shadered)
+            Button((self.width/2,0),shadeyellow)
+            Button((self.width/2,self.height/2),shadegreen)
+            Button((0,self.height/2),shadeblue)
+                
 myapp=Simon()
 myapp.run()
