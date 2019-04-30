@@ -20,33 +20,43 @@ class Button(Sprite):
 class Simon(App):
     def __init__(self):
         super().__init__()
-        time=(60*datetime.datetime.now().minute)+(datetime.datetime.now().second)
-        time2=time+5
+        self.time=(60*datetime.datetime.now().minute)+(datetime.datetime.now().second)
+        self.time2=self.time+5
     def step(self):
-        if time2 >= (time+5):
-            time=(60*datetime.datetime.now().minute)+(datetime.datetime.now().second)
-            choice=random.randint(1,5)
+        if self.time2 >= (self.time+3):
+            self.time=(60*datetime.datetime.now().minute)+(datetime.datetime.now().second)
+            choice=random.randint(1,4)
             if choice!=1:
-                shadered=Red
+                self.red=Red
+                print("no")
             else:
-                shadered=Redlit
+                self.red=Redlit
+                print("red")
             if choice!=2:
-                shadeyellow=Yellow
+                self.yellow=Yellow
+                print("no")
             else:
-                shadeyellow=Yellowlit
+                self.yellow=Yellowlit
+                print("yellow")
             if choice!=3:
-                shadegreen=Green
+                self.green=Green
+                print("no")
             else:
-                shadegreen=Greenlit
+                self.green=Greenlit
+                print("green")
             if choice!=4:
-                shadeblue=Blue
+                self.blue=Blue
+                print("no")
             else:
-                shadeblue=Bluelit
-            time2=(60*datetime.datetime.now().minute)+(datetime.datetime.now().second)
-        Button((0,0),shadered)
-        Button((self.width/2,0),shadeyellow)
-        Button((self.width/2,self.height/2),shadegreen)
-        Button((0,self.height/2),shadeblue)
+                self.blue=Bluelit
+                print("blue")
+            hello=True
+            while hello==True:
+                self.time2=(60*datetime.datetime.now().minute)+(datetime.datetime.now().second)
+            Button((0,0),self.red)
+            Button((self.width/2,0),self.yellow)
+            Button((self.width/2,self.height/2),self.green)
+            Button((0,self.height/2),self.blue)
                 
 myapp=Simon()
 myapp.run()
