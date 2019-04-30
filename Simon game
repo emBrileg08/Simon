@@ -1,5 +1,6 @@
 from ggame import App, Sprite, Color, RectangleAsset, LineStyle
 import random
+import datetime
 
 Red=Color(0xff0000, 0.9)
 Yellow=Color(0xffff00, 0.9)
@@ -19,7 +20,11 @@ class Button(Sprite):
 class Simon(App):
     def __init__(self):
         super().__init__()
-        def step(self):
+        time=(60*datetime.datetime.now().minute)+(datetime.datetime.now().second)
+        time2=time+5
+    def step(self):
+        if time2 >= (time+5):
+            time=(60*datetime.datetime.now().minute)+(datetime.datetime.now().second)
             choice=random.randint(1,5)
             if choice!=1:
                 shadered=Red
@@ -37,10 +42,11 @@ class Simon(App):
                 shadeblue=Blue
             else:
                 shadeblue=Bluelit
-            Button((0,0),shadered)
-            Button((self.width/2,0),shadeyellow)
-            Button((self.width/2,self.height/2),shadegreen)
-            Button((0,self.height/2),shadeblue)
+            time2=(60*datetime.datetime.now().minute)+(datetime.datetime.now().second)
+        Button((0,0),shadered)
+        Button((self.width/2,0),shadeyellow)
+        Button((self.width/2,self.height/2),shadegreen)
+        Button((0,self.height/2),shadeblue)
                 
 myapp=Simon()
 myapp.run()
