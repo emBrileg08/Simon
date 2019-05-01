@@ -30,10 +30,16 @@ class Simon(App):
         self.choices=[first]
     def step(self):
         self.time2=(60*datetime.datetime.now().minute)+(datetime.datetime.now().second)
+        self.button1.destroy()
+        self.button2.destroy()
+        self.button3.destroy()
+        self.button4.destroy()
+        self.button1=Button((0,0),Red)
+        self.button2=Button((self.width/2,0),Yellow)
+        self.button3=Button((self.width/2,self.height/2),Green)
+        self.button4=Button((0,self.height/2),Blue)
         if self.time2 >= (self.time+1):
             for x in self.choices:
-                choice=random.randint(1,4)
-                self.choices.append(choice)
                 if x!=1:
                     self.button1.destroy()
                     self.red=Red
@@ -63,7 +69,8 @@ class Simon(App):
                 self.button3=Button((self.width/2,self.height/2),self.green)
                 self.button4=Button((0,self.height/2),self.blue)
                 self.time=(60*datetime.datetime.now().minute)+(datetime.datetime.now().second)
-                print(self.choices)
+            choice=random.randint(1,4)
+            self.choices.append(choice)
                 
 myapp=Simon()
 myapp.run()
