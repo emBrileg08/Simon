@@ -28,41 +28,12 @@ class Simon(App):
         self.button4=Button((0,self.height/2),White)
         first=random.randint(1,4)
         self.choices=[first]
+        self.litoff=time()
         self.liton=time()
         self.state="lit"
     def step(self):
-        if self.state=="lit":
-            self.button1.destroy()
-            self.button2.destroy()
-            self.button3.destroy()
-            self.button4.destroy()
-            self.button1=Button((0,0),Redlit)
-            self.button2=Button((self.width/2,0),Yellow)
-            self.button3=Button((self.width/2,self.height/2),Green)
-            self.button4=Button((0,self.height/2),Blue)
-            self.time=time()
-            if self.time >= self.liton+.5:
-                self.state="unlit"
-                self.litoff=time()
-        if self.state=="unlit":
-            self.button1.destroy()
-            self.button2.destroy()
-            self.button3.destroy()
-            self.button4.destroy()
-            self.button1=Button((0,0),Red)
-            self.button2=Button((self.width/2,0),Yellow)
-            self.button3=Button((self.width/2,self.height/2),Green)
-            self.button4=Button((0,self.height/2),Blue)
-            self.time=time()
-            if self.time>=self.litoff+0.5:
-                self.state="lit"
-                self.liton=time()
-            
-# we need a state function that says stuff to do if it's in state illuminating or nah
-"""
-self.time2=time()
-        if self.time2 >= (self.time+0.5):
-            for x in self.choices:
+        for x in self.choices:
+            if self.state=="lit":
                 if x!=1:
                     self.button1.destroy()
                     self.red=Red
@@ -91,6 +62,33 @@ self.time2=time()
                 self.button2=Button((self.width/2,0),self.yellow)
                 self.button3=Button((self.width/2,self.height/2),self.green)
                 self.button4=Button((0,self.height/2),self.blue)
+                self.time=time()
+                if self.time >= self.liton+2:
+                    self.state="unlit"
+                    self.litoff=time()
+            elif self.state=="unlit":
+                self.button1.destroy()
+                self.button2.destroy()
+                self.button3.destroy()
+                self.button4.destroy()
+                self.button1=Button((0,0),Red)
+                self.button2=Button((self.width/2,0),Yellow)
+                self.button3=Button((self.width/2,self.height/2),Green)
+                self.button4=Button((0,self.height/2),Blue)
+                self.time=time()
+                if self.time>=self.litoff+2:
+                    self.state="lit"
+                    self.liton=time()
+        self.time=time()
+        if self.time>self.litoff+2:
+            self.choices.append(random.randint(1,4))
+            print(self.choices)
+            
+# we need a state function that says stuff to do if it's in state illuminating or nah
+"""
+self.time2=time()
+        if self.time2 >= (self.time+0.5):
+            for x in self.choices:
                 self.time=time()
             choice=random.randint(1,4)
             self.choices.append(choice)
