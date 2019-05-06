@@ -31,7 +31,7 @@ class Simon(App):
         self.litoff=time()
         self.liton=time()
         self.state="lit"
-    def step(self):
+        self.number=0
         for x in self.choices:
             if self.state=="lit":
                 if x!=1:
@@ -65,6 +65,7 @@ class Simon(App):
                 self.time=time()
                 if self.time >= self.liton+2:
                     self.state="unlit"
+                    self.number=self.number+1
                     self.litoff=time()
             elif self.state=="unlit":
                 self.button1.destroy()
@@ -79,10 +80,8 @@ class Simon(App):
                 if self.time>=self.litoff+2:
                     self.state="lit"
                     self.liton=time()
-        self.time=time()
-        if self.time>self.litoff+2:
-            self.choices.append(random.randint(1,4))
-            print(self.choices)
+        self.choices.append(random.randint(1,4))
+        print(self.choices)
             
 # we need a state function that says stuff to do if it's in state illuminating or nah
 """
