@@ -22,16 +22,69 @@ class Button(Sprite):
 class Simon(App):
     def __init__(self):
         super().__init__()
+        self.timeend=time()
         self.button1=Button((0,0),White)
         self.button2=Button((self.width/2,0),White)
         self.button3=Button((self.width/2,self.height/2),White)
         self.button4=Button((0,self.height/2),White)
         first=random.randint(1,4)
         self.choices=[first]
-        self.litoff=time()
-        self.liton=time()
         self.state="lit"
         self.number=0
+    def step(self):
+        self.timestart=time()
+        if self.timestart>self.timeend+1:
+            if self.state=="lit":
+                if self.choices[self.number]!=1:
+                    self.button1.destroy()
+                    self.red=Red
+                else:
+                    self.button1.destroy()
+                    self.red=Redlit
+                if self.choices[self.number]!=2:
+                    self.button2.destroy()
+                    self.yellow=Yellow
+                else:
+                    self.button2.destroy()
+                    self.yellow=Yellowlit
+                if self.choices[self.number]!=3:
+                    self.button3.destroy()
+                    self.green=Green
+                else:
+                    self.button3.destroy()
+                    self.green=Greenlit
+                if self.choices[self.number]!=4:
+                    self.button4.destroy()
+                    self.blue=Blue
+                else:
+                   self.button4.destroy()
+                   self.blue=Bluelit
+                self.button1=Button((0,0),self.red)
+                self.button2=Button((self.width/2,0),self.yellow)
+                self.button3=Button((self.width/2,self.height/2),self.green)
+                self.button4=Button((0,self.height/2),self.blue)
+            if self.state=="unlit":
+                self.button1.destroy()
+                self.button2.destroy()
+                self.button3.destroy()
+                self.button4.destroy()
+                self.button1=Button((0,0),Red)
+                self.button2=Button((self.width/2,0),Yellow)
+                self.button3=Button((self.width/2,self.height/2),Green)
+                self.button4=Button((0,self.height/2),Blue)
+                self.number+=1
+                if len(self.choices)==self.number:
+                    self.number=0
+                    self.choices.append(random.randint(1,4))
+                    print(self.choices)
+            self.timeend=time()
+            if self.state=="lit":
+                self.state="unlit"
+            if self.state=="unlit":
+                self.state="lit"
+        
+    """
+    def display(self):
         for x in self.choices:
             if self.state=="lit":
                 if x!=1:
@@ -81,7 +134,8 @@ class Simon(App):
                     self.state="lit"
                     self.liton=time()
         self.choices.append(random.randint(1,4))
-        print(self.choices)
+        print(self.choice)
+        """
             
 # we need a state function that says stuff to do if it's in state illuminating or nah
 """
