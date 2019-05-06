@@ -78,10 +78,6 @@ class Simon(App):
                     self.choices.append(random.randint(1,4))
                     print(self.choices)
             self.timeend=time()
-            if self.state=="lit":
-                self.state="unlit"
-            if self.state=="unlit":
-                self.state="lit"
         
     """
     def display(self):
