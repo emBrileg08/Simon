@@ -1,4 +1,4 @@
-from ggame import App, Sprite, Color, RectangleAsset, LineStyle
+from ggame import App, Sprite, Color, RectangleAsset, LineStyle, ImageAsset
 import random
 import datetime
 from time import time
@@ -19,6 +19,11 @@ class Button(Sprite):
         test=RectangleAsset(Simon.width/2,Simon.height/2,line,shade)
         super().__init__(test,position)
         
+class YourTurn(Sprite):
+    def __init__(self,position):
+        asset=ImageAsset("Now It's Your Turn.png")
+        super().__init__(asset,position)
+        
 class Simon(App):
     def __init__(self):
         super().__init__()
@@ -31,6 +36,20 @@ class Simon(App):
         self.choices=[first]
         self.state="lit"
         self.number=0
+        Simon.listenMouseEvent("click", self.record)
+        self.user=[]
+        YourTurn((0,0))
+        
+    def record(self,event):
+        if event.x<self.width/2 and event.y<self.height/2:
+            self.user.append(1)
+        elif event.y<self.height/2:
+            self.user.append(2)
+        elif event.x>self.width/2:
+            self.user.append(3)
+        else:
+            self.user.append(4)
+        
     def step(self):
         self.timestart=time()
         if self.timestart>self.timeend+1:
@@ -63,7 +82,8 @@ class Simon(App):
                 self.button2=Button((self.width/2,0),self.yellow)
                 self.button3=Button((self.width/2,self.height/2),self.green)
                 self.button4=Button((0,self.height/2),self.blue)
-            if self.state=="unlit":
+                self.state="unlit"
+            elif self.state=="unlit":
                 self.button1.destroy()
                 self.button2.destroy()
                 self.button3.destroy()
@@ -77,81 +97,12 @@ class Simon(App):
                     self.number=0
                     self.choices.append(random.randint(1,4))
                     print(self.choices)
-            self.timeend=time()
-        
-    """
-    def display(self):
-        for x in self.choices:
-            if self.state=="lit":
-                if x!=1:
-                    self.button1.destroy()
-                    self.red=Red
+                    self.state="listen"
                 else:
-                    self.button1.destroy()
-                    self.red=Redlit
-                if x!=2:
-                    self.button2.destroy()
-                    self.yellow=Yellow
-                else:
-                    self.button2.destroy()
-                    self.yellow=Yellowlit
-                if x!=3:
-                    self.button3.destroy()
-                    self.green=Green
-                else:
-                    self.button3.destroy()
-                    self.green=Greenlit
-                if x!=4:
-                    self.button4.destroy()
-                    self.blue=Blue
-                else:
-                   self.button4.destroy()
-                   self.blue=Bluelit
-                self.button1=Button((0,0),self.red)
-                self.button2=Button((self.width/2,0),self.yellow)
-                self.button3=Button((self.width/2,self.height/2),self.green)
-                self.button4=Button((0,self.height/2),self.blue)
-                self.time=time()
-                if self.time >= self.liton+2:
-                    self.state="unlit"
-                    self.number=self.number+1
-                    self.litoff=time()
-            elif self.state=="unlit":
-                self.button1.destroy()
-                self.button2.destroy()
-                self.button3.destroy()
-                self.button4.destroy()
-                self.button1=Button((0,0),Red)
-                self.button2=Button((self.width/2,0),Yellow)
-                self.button3=Button((self.width/2,self.height/2),Green)
-                self.button4=Button((0,self.height/2),Blue)
-                self.time=time()
-                if self.time>=self.litoff+2:
                     self.state="lit"
-                    self.liton=time()
-        self.choices.append(random.randint(1,4))
-        print(self.choice)
-        """
-            
-# we need a state function that says stuff to do if it's in state illuminating or nah
-"""
-self.time2=time()
-        if self.time2 >= (self.time+0.5):
-            for x in self.choices:
-                self.time=time()
-            choice=random.randint(1,4)
-            self.choices.append(choice)
-        self.time2=time()
-        if self.time2 >= (self.time+0.5):
-            self.button1.destroy()
-            self.button2.destroy()
-            self.button3.destroy()
-            self.button4.destroy()
-            self.button1=Button((0,0),Red)
-            self.button2=Button((self.width/2,0),Yellow)
-            self.button3=Button((self.width/2,self.height/2),Green)
-            self.button4=Button((0,self.height/2),Blue)
-            self.time=time()
-"""
+            elif self.state=="listen":
+                self.user=[]
+                
+            self.timeend=time()
 myapp=Simon()
 myapp.run()
