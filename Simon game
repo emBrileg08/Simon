@@ -23,6 +23,7 @@ class YourTurn(Sprite):
     def __init__(self,position):
         asset=ImageAsset("Your Turn.jpg")
         super().__init__(asset,position)
+        self.scale=2
         
 class Simon(App):
     def __init__(self):
@@ -36,12 +37,12 @@ class Simon(App):
         self.choices=[first]
         self.state="lit"
         self.number=0
+        self.comparenumber=0
         Simon.listenMouseEvent("click", self.record)
         self.user=[]
-        self.hi=YourTurn((0,0))
-        self.hi.scale(2)
         
     def record(self,event):
+        self.clicked=True
         if event.x<self.width/2 and event.y<self.height/2:
             self.user.append(1)
         elif event.y<self.height/2:
@@ -98,12 +99,23 @@ class Simon(App):
                     self.number=0
                     self.choices.append(random.randint(1,4))
                     print(self.choices)
-                    self.state="listen"
+                    self.state="yourturn"
                 else:
                     self.state="lit"
-            elif self.state=="listen":
-                self.user=[]
-                
+            elif self.state=="yourturn":
+                self.yours=YourTurn((300,175))
+                self.state="record"
+            elif self.state=="record":
+                self.yours.destroy()
+                if self.comparenumber<len(self.choices) and self.comparenumber<len(self.user):
+                    if self.user[self.comparenumber]==self.choices[self.comparenumber]:
+                        self.comparenumber+=1
+                    elif self.user[self.comparenumber]!=self.choices[self.comparenumber]:
+                        self.state="wrong"
+                elif self.comparenumber>len(self.choices):
+                    self.state="lit"
+            elif self.state=="wrong":
+                print("heh you lose")
             self.timeend=time()
 myapp=Simon()
 myapp.run()
