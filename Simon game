@@ -21,7 +21,7 @@ class Button(Sprite):
         
 class YourTurn(Sprite):
     def __init__(self,position):
-        asset=ImageAsset("Finger.png")
+        asset=ImageAsset("Your Turn.jpg")
         super().__init__(asset,position)
         
 class Simon(App):
@@ -38,7 +38,8 @@ class Simon(App):
         self.number=0
         Simon.listenMouseEvent("click", self.record)
         self.user=[]
-        YourTurn((0,0))
+        self.hi=YourTurn((0,0))
+        self.hi.scale(2)
         
     def record(self,event):
         if event.x<self.width/2 and event.y<self.height/2:
