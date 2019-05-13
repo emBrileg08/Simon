@@ -35,14 +35,15 @@ class Simon(App):
         self.button4=Button((0,self.height/2),White)
         first=random.randint(1,4)
         self.choices=[first]
-        self.state="lit"
+        self.state="begin"
         self.number=0
         self.comparenumber=0
         Simon.listenMouseEvent("click", self.record)
         self.user=[]
+        self.waittime=0
+        self.steppin="yes"
         
     def record(self,event):
-        self.clicked=True
         if event.x<self.width/2 and event.y<self.height/2:
             self.user.append(1)
         elif event.y<self.height/2:
@@ -53,69 +54,83 @@ class Simon(App):
             self.user.append(4)
         
     def step(self):
-        self.timestart=time()
-        if self.timestart>self.timeend+1:
-            if self.state=="lit":
-                if self.choices[self.number]!=1:
+        if self.steppin=="yes":
+            self.timestart=time()
+            if self.timestart>self.timeend+self.waittime:
+                if self.state=="begin":
+                    self.button1=Button((0,0),Red)
+                    self.button2=Button((self.width/2,0),Yellow)
+                    self.button3=Button((self.width/2,self.height/2),Green)
+                    self.button4=Button((0,self.height/2),Blue)
+                    self.state="lit"
+                    self.waittime=.75
+                elif self.state=="lit":
+                    if self.choices[self.number]!=1:
+                        self.button1.destroy()
+                        self.red=Red
+                    else:
+                        self.button1.destroy()
+                        self.red=Redlit
+                    if self.choices[self.number]!=2:
+                        self.button2.destroy()
+                        self.yellow=Yellow
+                    else:
+                        self.button2.destroy()
+                        self.yellow=Yellowlit
+                    if self.choices[self.number]!=3:
+                        self.button3.destroy()
+                        self.green=Green
+                    else:
+                        self.button3.destroy()
+                        self.green=Greenlit
+                    if self.choices[self.number]!=4:
+                        self.button4.destroy()
+                        self.blue=Blue
+                    else:
+                       self.button4.destroy()
+                       self.blue=Bluelit
+                    self.button1=Button((0,0),self.red)
+                    self.button2=Button((self.width/2,0),self.yellow)
+                    self.button3=Button((self.width/2,self.height/2),self.green)
+                    self.button4=Button((0,self.height/2),self.blue)
+                    self.state="unlit"
+                elif self.state=="unlit":
                     self.button1.destroy()
-                    self.red=Red
-                else:
-                    self.button1.destroy()
-                    self.red=Redlit
-                if self.choices[self.number]!=2:
                     self.button2.destroy()
-                    self.yellow=Yellow
-                else:
-                    self.button2.destroy()
-                    self.yellow=Yellowlit
-                if self.choices[self.number]!=3:
                     self.button3.destroy()
-                    self.green=Green
-                else:
-                    self.button3.destroy()
-                    self.green=Greenlit
-                if self.choices[self.number]!=4:
                     self.button4.destroy()
-                    self.blue=Blue
-                else:
-                   self.button4.destroy()
-                   self.blue=Bluelit
-                self.button1=Button((0,0),self.red)
-                self.button2=Button((self.width/2,0),self.yellow)
-                self.button3=Button((self.width/2,self.height/2),self.green)
-                self.button4=Button((0,self.height/2),self.blue)
-                self.state="unlit"
-            elif self.state=="unlit":
-                self.button1.destroy()
-                self.button2.destroy()
-                self.button3.destroy()
-                self.button4.destroy()
-                self.button1=Button((0,0),Red)
-                self.button2=Button((self.width/2,0),Yellow)
-                self.button3=Button((self.width/2,self.height/2),Green)
-                self.button4=Button((0,self.height/2),Blue)
-                self.number+=1
-                if len(self.choices)==self.number:
-                    self.number=0
-                    self.choices.append(random.randint(1,4))
-                    print(self.choices)
-                    self.state="yourturn"
-                else:
-                    self.state="lit"
-            elif self.state=="yourturn":
-                self.yours=YourTurn((300,175))
-                self.state="record"
-            elif self.state=="record":
-                self.yours.destroy()
-                if self.comparenumber<len(self.choices) and self.comparenumber<len(self.user):
-                    if self.user[self.comparenumber]==self.choices[self.comparenumber]:
-                        self.comparenumber+=1
-                    elif self.user[self.comparenumber]!=self.choices[self.comparenumber]:
-                        self.state="wrong"
-                elif self.comparenumber>len(self.choices):
-                    self.state="lit"
-            elif self.state=="wrong":
-                print("heh you lose")
-            self.timeend=time()
+                    self.button1=Button((0,0),Red)
+                    self.button2=Button((self.width/2,0),Yellow)
+                    self.button3=Button((self.width/2,self.height/2),Green)
+                    self.button4=Button((0,self.height/2),Blue)
+                    self.number+=1
+                    if len(self.choices)==self.number:
+                        self.number=0
+                        self.state="yourturn"
+                    else:
+                        self.state="lit"
+                elif self.state=="yourturn":
+                    #this will need to be fixed at some point
+                    self.yours=YourTurn((300,175))
+                    self.state="record"
+                    self.user=[]
+                elif self.state=="record":
+                    self.waittime=0
+                    self.yours.visible=False
+                    if self.comparenumber<len(self.choices) and self.comparenumber<len(self.user):
+                        if self.user[self.comparenumber]==self.choices[self.comparenumber]:
+                            self.comparenumber+=1
+                            print("part one worked")
+                        else:
+                            self.state="wrong"
+                    elif self.comparenumber>=len(self.choices):
+                        self.choices.append(random.randint(1,4))
+                        print("Success!")
+                        self.state="lit"
+                        self.waittime=.75
+                elif self.state=="wrong":
+                    self.steppin="no"
+                    print("Incorrect! Game Over")
+                self.timeend=time()
 myapp=Simon()
 myapp.run()
