@@ -121,7 +121,6 @@ class Simon(App):
                     if self.comparenumber<len(self.choices) and self.comparenumber<len(self.user):
                         if self.user[self.comparenumber]==self.choices[self.comparenumber]:
                             self.comparenumber+=1
-                            print("part one worked")
                         else:
                             self.state="wrong"
                     elif self.comparenumber>=len(self.choices):
