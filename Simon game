@@ -24,6 +24,10 @@ class YourTurn(Sprite):
         asset=ImageAsset("Your Turn.jpg")
         super().__init__(asset,position)
         self.scale=2
+
+class Ding(Sound):
+    def __init__(self, asset):
+        super().__init__(self)
         
 class Simon(App):
     def __init__(self):
