@@ -1,4 +1,4 @@
-from ggame import App, Sprite, Color, RectangleAsset, LineStyle, ImageAsset
+from ggame import App, Sprite, Color, RectangleAsset, LineStyle, ImageAsset, SoundAsset, Sound
 import random
 import datetime
 from time import time
@@ -24,10 +24,6 @@ class YourTurn(Sprite):
         asset=ImageAsset("Your Turn.jpg")
         super().__init__(asset,position)
         self.scale=2
-
-class Ding(Sound):
-    def __init__(self, asset):
-        super().__init__(self)
         
 class Simon(App):
     def __init__(self):
@@ -46,6 +42,7 @@ class Simon(App):
         self.user=[]
         self.waittime=0
         self.steppin="yes"
+        self.redsound=SoundAsset("Tone 1.mp3")
         
     def record(self,event):
         if event.x<self.width/2 and event.y<self.height/2:
@@ -72,6 +69,7 @@ class Simon(App):
                     if self.choices[self.number]!=1:
                         self.button1.destroy()
                         self.red=Red
+                        Sound(self.redsound)
                     else:
                         self.button1.destroy()
                         self.red=Redlit
@@ -114,7 +112,6 @@ class Simon(App):
                     else:
                         self.state="lit"
                 elif self.state=="yourturn":
-                    #this will need to be fixed at some point
                     self.yours=YourTurn((300,175))
                     self.state="record"
                     self.user=[]
