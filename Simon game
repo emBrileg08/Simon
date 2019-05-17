@@ -43,10 +43,10 @@ class Simon(App):
         self.user=[]
         self.waittime=0
         self.steppin="yes"
-        self.redsound=SoundAsset("Tone 1.mp3")
-        self.greensound=SoundAsset("Tone 2.mp3")
-        self.yellowsound=SoundAsset("Tone 3.mp3")
-        self.bluesound=SoundAsset("Tone 4.mp3")
+        redsound=SoundAsset("Tone 1.mp3")
+        greensound=SoundAsset("Tone 2.mp3")
+        yellowsound=SoundAsset("Tone 3.mp3")
+        bluesound=SoundAsset("Tone 4.mp3")
         
     def record(self,event):
         if event.x<self.width/2 and event.y<self.height/2:
@@ -73,28 +73,28 @@ class Simon(App):
                     if self.choices[self.number]!=1:
                         self.button1.destroy()
                         self.red=Red
-                        Sound(self.redsound)
+                        Sound(Simon.redsound)
                     else:
                         self.button1.destroy()
                         self.red=Redlit
                     if self.choices[self.number]!=2:
                         self.button2.destroy()
                         self.yellow=Yellow
-                        Sound(self.yellowsound)
+                        Sound(Simon.yellowsound)
                     else:
                         self.button2.destroy()
                         self.yellow=Yellowlit
                     if self.choices[self.number]!=3:
                         self.button3.destroy()
                         self.green=Green
-                        Sound(self.greensound)
+                        Sound(Simon.greensound)
                     else:
                         self.button3.destroy()
                         self.green=Greenlit
                     if self.choices[self.number]!=4:
                         self.button4.destroy()
                         self.blue=Blue
-                        Sound(self.bluesound)
+                        Sound(Simon.bluesound)
                     else:
                        self.button4.destroy()
                        self.blue=Bluelit
