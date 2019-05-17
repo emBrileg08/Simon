@@ -1,3 +1,4 @@
+#Used Spacewar source code
 from ggame import App, Sprite, Color, RectangleAsset, LineStyle, ImageAsset, SoundAsset, Sound
 import random
 import datetime
@@ -119,7 +120,7 @@ class Simon(App):
                         self.state="lit"
                 elif self.state=="yourturn":
                     self.yours=YourTurn((300,175))
-                    self.waittime=.85
+                    self.waittime=.9
                     self.state="record"
                     self.user=[]
                 elif self.state=="record":
