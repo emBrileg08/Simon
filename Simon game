@@ -51,6 +51,7 @@ class Simon(App):
         self.gs=Sound(Simon.greensound)
         self.ys=Sound(Simon.yellowsound)
         self.bs=Sound(Simon.bluesound)
+        Simon.listenMouseEvent("click",self.lightup)
         
     def record(self,event):
         if event.x<self.width/2 and event.y<self.height/2:
@@ -65,6 +66,21 @@ class Simon(App):
         else:
             self.user.append(4)
             self.bs.play()
+    
+    def lightup(self,event):
+        if self.state=="record":
+            if event.x<self.width/2 and event.y<self.height/2:
+                self.button1.destroy()
+                self.button1=Button((0,0),Redlit)
+            elif event.y<self.height/2:
+                self.button2.destroy()
+                self.button2=Button((self.width/2,0),Yellowlit)
+            elif event.x>self.width/2:
+                self.button3.destroy()
+                self.button3=Button((self.width/2,self.height/2),Greenlit)
+            else:
+                self.button4.destroy()
+                self.button4=Button((0,self.height/2),self.blue)
         
     def step(self):
         if self.steppin=="yes":
@@ -143,7 +159,7 @@ class Simon(App):
                     elif self.comparenumber>=len(self.choices):
                         self.choices.append(random.randint(1,4))
                         print("Success!")
-                        self.state="lit"
+                        self.state="begin"
                         self.waittime=.75
                 elif self.state=="wrong":
                     self.steppin="no"
