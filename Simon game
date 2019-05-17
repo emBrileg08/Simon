@@ -87,6 +87,10 @@ class Simon(App):
             self.timestart=time()
             if self.timestart>self.timeend+self.waittime:
                 if self.state=="begin":
+                    self.button1.destroy()
+                    self.button2.destroy()
+                    self.button3.destroy()
+                    self.button4.destroy()
                     self.button1=Button((0,0),Red)
                     self.button2=Button((self.width/2,0),Yellow)
                     self.button3=Button((self.width/2,self.height/2),Green)
