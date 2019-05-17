@@ -27,6 +27,10 @@ class YourTurn(Sprite):
         self.scale=2
         
 class Simon(App):
+    redsound=SoundAsset("Tone 1.mp3")
+    greensound=SoundAsset("Tone 2.mp3")
+    yellowsound=SoundAsset("Tone 3.mp3")
+    bluesound=SoundAsset("Tone 5.mp3")
     def __init__(self):
         super().__init__()
         self.timeend=time()
@@ -43,20 +47,24 @@ class Simon(App):
         self.user=[]
         self.waittime=0
         self.steppin="yes"
-        redsound=SoundAsset("Tone 1.mp3")
-        greensound=SoundAsset("Tone 2.mp3")
-        yellowsound=SoundAsset("Tone 3.mp3")
-        bluesound=SoundAsset("Tone 4.mp3")
+        self.rs=Sound(Simon.redsound)
+        self.gs=Sound(Simon.greensound)
+        self.ys=Sound(Simon.yellowsound)
+        self.bs=Sound(Simon.bluesound)
         
     def record(self,event):
         if event.x<self.width/2 and event.y<self.height/2:
             self.user.append(1)
+            self.rs.play()
         elif event.y<self.height/2:
             self.user.append(2)
+            self.ys.play()
         elif event.x>self.width/2:
             self.user.append(3)
+            self.gs.play()
         else:
             self.user.append(4)
+            self.bs.play()
         
     def step(self):
         if self.steppin=="yes":
@@ -70,34 +78,35 @@ class Simon(App):
                     self.state="lit"
                     self.waittime=.75
                 elif self.state=="lit":
+                    self.waittime=.4
                     if self.choices[self.number]!=1:
                         self.button1.destroy()
                         self.red=Red
-                        Sound(Simon.redsound)
                     else:
                         self.button1.destroy()
                         self.red=Redlit
+                        self.rs.play()
                     if self.choices[self.number]!=2:
                         self.button2.destroy()
                         self.yellow=Yellow
-                        Sound(Simon.yellowsound)
                     else:
                         self.button2.destroy()
                         self.yellow=Yellowlit
+                        self.ys.play()
                     if self.choices[self.number]!=3:
                         self.button3.destroy()
                         self.green=Green
-                        Sound(Simon.greensound)
                     else:
                         self.button3.destroy()
                         self.green=Greenlit
+                        self.gs.play()
                     if self.choices[self.number]!=4:
                         self.button4.destroy()
                         self.blue=Blue
-                        Sound(Simon.bluesound)
                     else:
                        self.button4.destroy()
                        self.blue=Bluelit
+                       self.bs.play()
                     self.button1=Button((0,0),self.red)
                     self.button2=Button((self.width/2,0),self.yellow)
                     self.button3=Button((self.width/2,self.height/2),self.green)
