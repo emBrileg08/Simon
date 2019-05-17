@@ -30,7 +30,7 @@ class Simon(App):
     redsound=SoundAsset("Tone 1.mp3")
     greensound=SoundAsset("Tone 2.mp3")
     yellowsound=SoundAsset("Tone 3.mp3")
-    bluesound=SoundAsset("Tone 5.mp3")
+    bluesound=SoundAsset("Tone 6.mp3")
     def __init__(self):
         super().__init__()
         self.timeend=time()
