@@ -1,7 +1,9 @@
-#Used Spacewar source code
+# don't X out of this it isn't committed
+
+
+
 from ggame import App, Sprite, Color, RectangleAsset, LineStyle, ImageAsset, SoundAsset, Sound
 import random
-import datetime
 from time import time
 
 Red=Color(0xff0000, 0.9)
@@ -46,12 +48,14 @@ class Simon(App):
         Simon.listenMouseEvent("click", self.record)
         self.user=[]
         self.waittime=0
+        self.score=0
         self.steppin="yes"
         self.rs=Sound(Simon.redsound)
         self.gs=Sound(Simon.greensound)
         self.ys=Sound(Simon.yellowsound)
         self.bs=Sound(Simon.bluesound)
-        Simon.listenMouseEvent("click",self.lightup)
+        Simon.listenMouseEvent("mousedown",self.lightup)
+        Simon.listenMouseEvent("mouseup",self.lightdown)
         
     def record(self,event):
         if event.x<self.width/2 and event.y<self.height/2:
@@ -80,7 +84,22 @@ class Simon(App):
                 self.button3=Button((self.width/2,self.height/2),Greenlit)
             else:
                 self.button4.destroy()
-                self.button4=Button((0,self.height/2),self.blue)
+                self.button4=Button((0,self.height/2),Bluelit)
+    
+    def lightdown(self,event):
+        if self.state=="record":
+            if event.x<self.width/2 and event.y<self.height/2:
+                self.button1.destroy()
+                self.button1=Button((0,0),Red)
+            elif event.y<self.height/2:
+                self.button2.destroy()
+                self.button2=Button((self.width/2,0),Yellow)
+            elif event.x>self.width/2:
+                self.button3.destroy()
+                self.button3=Button((self.width/2,self.height/2),Green)
+            else:
+                self.button4.destroy()
+                self.button4=Button((0,self.height/2),Blue)
         
     def step(self):
         if self.steppin=="yes":
@@ -162,7 +181,8 @@ class Simon(App):
                             self.state="wrong"
                     elif self.comparenumber>=len(self.choices):
                         self.choices.append(random.randint(1,4))
-                        print("Success!")
+                        self.score+=1
+                        print("Success! Score: ", self.score)
                         self.state="begin"
                         self.waittime=.75
                 elif self.state=="wrong":
